@@ -69,7 +69,7 @@ $(OBJDIR)/%.o: %.c $(HEADERS)
 
 clean:
 				@rm -rf $(OBJDIR)
-				@echo "removing objects"
+				@echo "removing objects from $(NAME)"
 
 fclean: 	clean
 				@rm -f $(NAME)
