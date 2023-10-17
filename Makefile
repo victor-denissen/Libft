@@ -58,7 +58,7 @@ OBJB =		$(SRCB:%.c=$(OBJDIR)/%.o)
 
 all:		$(NAME)
 
-$(NAME):	$(OBJ) $(HEADERS)
+$(NAME):	$(OBJ) $(OBJB) $(HEADERS)
 				@$(AR) $(ARFLAGS) $(NAME) $^
 				@echo "compiling $@"
 
