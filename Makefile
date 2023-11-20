@@ -59,7 +59,7 @@ CURRENT_TASK:= 0
 PROGRESS_FILE:= .progress
 
 UP = \033[A
-CLEAR = \003
+CLEAR = \e[2K
 
 RED = \033[31m
 GREEN = \033[32m
@@ -70,39 +70,42 @@ OBJDIR:=	obj
 OBJ :=		$(SRC:%.c=$(OBJDIR)/%.o)
 OBJB :=		$(SRCB:%.c=$(OBJDIR)/%.o)
 
-all:		reset_progress $(NAME) .progress
+all:	build
 
-$(NAME):	$(OBJ) $(OBJB) $(HEADERS) $(progress-bar)
+
+build:			
+	make pre_build 
+	(make -q $(NAME) && echo "$(GREEN)$(NAME) is already up to date$(RESET)") || (make $(NAME) && make post_build)
+
+
+$(NAME):	$(OBJ) $(OBJB) $(HEADERS)
 				$(AR) $(ARFLAGS) $(NAME) $^
-				printf "$(CLEAR)"
-				echo -n "$(GREEN)Done$(RESET)"
-				$(shell rm -rf $(PROGRESS_FILE))
 
-test:		$(OBJ) $(OBJB) $(HEADERS)
-				echo "compiling test"
-				$(CC) $(CFLAGS) $(OBJ) $(OBJB) -o $@
-				echo "running test"
-				./$@
 
-$(OBJDIR)/%.o: %.c $(HEADERS) .progress
+$(OBJDIR)/%.o: %.c $(HEADERS)
 				$(MAKE) update-progress
 				mkdir -p $(@D) 
 				$(CC) $(CFLAGS) -c $< -o $@
 				echo  " compiling $@"
-				printf "$(UP)$(CLEAR)"
+				printf "$(CLEAR)$(UP)"
+
 
 clean:
 				rm -rf $(OBJDIR)
-				echo "removing objects from $(NAME)"
+				echo "$(YELLOW)removed objects from $(NAME)$(RESET)"
 
-fclean: 	clean
+
+fclean: 	
+				make clean
 				rm -f $(NAME)
-				echo "removing $(NAME)"
+				echo "$(YELLOW)removed $(NAME)$(RESET)"
+
+t: 
+				echo "test"
+				echo " testting these tests\r $(UP)$(CLEAR) whut"
+
 
 re: fclean all
-
-bonus: $(OBJB)
-	$(AR) $(ARFLAGS) $(NAME) $^
 
 progress-bar:
 	$(eval CURRENT_TASK=$(shell cat $(PROGRESS_FILE)))
@@ -122,10 +125,22 @@ update-progress:
 	echo "$(CURRENT_TASK)" > $(PROGRESS_FILE)
 	$(MAKE) progress-bar
 
-reset_progress:
-	echo "0" > $(PROGRESS_FILE)
+pre_build:
 	echo "$(GREEN)Compiling libft.a$(RESET)"
+	$(shell touch $(PROGRESS_FILE))
+	echo "0" > $(PROGRESS_FILE)
+
+post_build:
+	printf "\r$(CLEAR)$(GREEN)Compiled $(NAME)$(RESET)\n"
+	$(shell rm -rf $(PROGRESS_FILE))
+
+	
+test:		$(OBJ) $(OBJB) $(HEADERS)
+				echo "compiling test"
+				$(CC) $(CFLAGS) $(OBJ) $(OBJB) -o $@
+				echo "running test"
+				./$@
 
 
 .SILENT:
-.PHONY: all clean fclean re test progress-bar update-progress
+.PHONY: all clean fclean re test progress-bar update-progress .progress
