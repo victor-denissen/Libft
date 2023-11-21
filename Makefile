@@ -60,25 +60,111 @@ PROGRESS_FILE:= .progress
 
 UP = \033[A
 CLEAR = \e[2K
+CLEAR_TILL_END = \e[0K
 
-RED = \033[31m
-GREEN = \033[32m
-YELLOW = \033[33m
-RESET = \033[0m
+
+SET_BOLD_MODE = \e[1m
+SET_DIM_MODE = \e[2m
+SET_ITALIC_MODE = \e[3m
+SET_UNDERLINE_MODE = \e[4m
+SET_BLINKING_MODE = \e[5m
+SET_INVERSE_MODE = \e[7m
+SET_HIDDEN_MODE = \e[8m
+SET_STRIKETHROUGH_MODE = \e[9m
+
+RESET_BOLD_MODE = \e[22m
+RESET_DIM_MODE = \e[22m
+RESET_ITALIC_MODE = \e[23m
+RESET_UNDERLINE_MODE = \e[24m
+RESET_BLINKING_MODE = \e[25m
+RESET_INVERSE_MODE = \e[27m
+RESET_HIDDEN_MODE = \e[28m
+RESET_STRIKETHROUGH_MODE = \e[29m
+RESET_ALL = \e[0m
+
+BLACK_BACK = \e[100m
+RED_BACK = \e[101m
+GREEN_BACK = \e[102m
+YELLOW_BACK = \e[103m
+BLUE_BACK = \e[104m
+MAGENTA_BACK = \e[105m
+CYAN_BACK = \e[106m
+WHITE_BACK = \e[107m
+RED = \e[91m
+GREEN = \e[92m
+YELLOW = \e[93m
+BLUE = \e[94m
+MAGENTA = \e[95m
+CYAN = \e[96m
+WHITE = \e[97m
+
+define HEADER
+$(GREEN)___________              __
+$(RED)\__    ___/___   _______/  |_
+$(GREEN)  |    |_/ __ \ /  ___/\   __\\
+$(RED)  |    |\  ___/ \___ \  |  |
+$(GREEN)  |____| \___  >____  > |__|
+$(RED)             \/     \/
+endef
+export HEADER
+
+define CREATION_ART
+$(RED)+================================================================+
+|$(GREEN) _     ___ ____  _____ _____    _                               $(RED)|
+|$(GREEN)| |   |_ _| __ )|  ___|_   _|  / \                              $(RED)|
+|$(GREEN)| |    | ||  _ \| |_    | |   / _ \                             $(RED)|
+|$(GREEN)| |___ | || |_) |  _|   | |_ / ___ \                            $(RED)|
+|$(GREEN)|_____|___|____/|_|   _ |_(_)_/___\_\____                       $(RED)|
+|$(GREEN) / ___|  _ \| ____|  / \|_   _| ____|  _ \                      $(RED)|
+|$(GREEN)| |   | |_) |  _|   / _ \ | | |  _| | | | |                     $(RED)|
+|$(GREEN)| |___|  _ <| |___ / ___ \| | | |___| |_| |                     $(RED)|
+|$(GREEN) \____|_| \_\_____/_/__ \_\_| |_____|____/_   _ _     _  __   __$(RED)|
+|$(GREEN)/ ___|| | | |/ ___/ ___| ____/ ___||  ___| | | | |   | | \ \ / /$(RED)|
+|$(GREEN)\___ \| | | | |  | |   |  _| \___ \| |_  | | | | |   | |  \ V / $(RED)|
+|$(GREEN) ___) | |_| | |__| |___| |___ ___) |  _| | |_| | |___| |___| |  $(RED)|
+|$(GREEN)|____/ \___/ \____\____|_____|____/|_|    \___/|_____|_____|_|  $(RED)|
++================================================================+$(WHITE)
+endef
+export CREATION_ART
+
+define UP_TO_DATE_ART
+$(RED)+=========================================================================+
+|$(GREEN) _     ___ ____  _____ _____    _      ___ ____                          $(RED)|
+|$(GREEN)| |   |_ _| __ )|  ___|_   _|  / \    |_ _/ ___|                         $(RED)|
+|$(GREEN)| |    | ||  _ \| |_    | |   / _ \    | |\___ \                         $(RED)|
+|$(GREEN)| |___ | || |_) |  _|   | |_ / ___ \   | | ___) |                        $(RED)|
+|$(GREEN)|_____|___|____/|_|  ___|_(_)_/   \_\_|___|____/_   _ ____    _____ ___  $(RED)|
+|$(GREEN)   / \  | |   |  _ \| ____|  / \  |  _ \ \ / / | | | |  _ \  |_   _/ _ \ $(RED)|
+|$(GREEN)  / _ \ | |   | |_) |  _|   / _ \ | | | \ V /  | | | | |_) |   | || | | |$(RED)|
+|$(GREEN) / ___ \| |___|  _ <| |___ / ___ \| |_| || |   | |_| |  __/    | || |_| |$(RED)|
+|$(GREEN)/_/__ \_\_____|_| \_\_____/_/   \_\____/ |_|    \___/|_|       |_| \___/ $(RED)|
+|$(GREEN)|  _ \  / \|_   _| ____|                                                 $(RED)|
+|$(GREEN)| | | |/ _ \ | | |  _|                                                   $(RED)|
+|$(GREEN)| |_| / ___ \| | | |___                                                  $(RED)|
+|$(GREEN)|____/_/   \_\_| |_____|                                                 $(RED)|
++=========================================================================+$(WHITE)
+endef
+export UP_TO_DATE_ART
+
+RESET_SCREEN = \e[2J
+
 
 OBJDIR:=	obj
 OBJ :=		$(SRC:%.c=$(OBJDIR)/%.o)
 OBJB :=		$(SRCB:%.c=$(OBJDIR)/%.o)
 
-all:	build
+all:
+	(make -q $(NAME) && echo "$$UP_TO_DATE_ART") || (make  build)
+
 
 
 build:			
 	make pre_build 
-	(make -q $(NAME) && echo "$(GREEN)$(NAME) is already up to date$(RESET)") || (make $(NAME) && make post_build)
+	make $(NAME)
+	make post_build
 
 
-$(NAME):	$(OBJ) $(OBJB) $(HEADERS)
+$(NAME):	$(OBJ) $(HEADERS)
 				$(AR) $(ARFLAGS) $(NAME) $^
 
 
@@ -86,52 +172,52 @@ $(OBJDIR)/%.o: %.c $(HEADERS)
 				$(MAKE) update-progress
 				mkdir -p $(@D) 
 				$(CC) $(CFLAGS) -c $< -o $@
-				echo  " compiling $@"
+				echo  "\t$(CLEAR_TILL_END)compiling $@"
 				printf "$(CLEAR)$(UP)"
 
 
 clean:
 				rm -rf $(OBJDIR)
-				echo "$(YELLOW)removed objects from $(NAME)$(RESET)"
+				rm -f $(PROGRESS_FILE)
+				echo "$(YELLOW)removed objects from $(NAME)$(WHITE)"
 
 
 fclean: 	
 				make clean
 				rm -f $(NAME)
-				echo "$(YELLOW)removed $(NAME)$(RESET)"
+				echo "$(YELLOW)removed $(NAME)$(WHITE)"
 
 t: 
-				echo "test"
-				echo " testting these tests\r $(UP)$(CLEAR) whut"
+	echo "$$CREATION_ART"
 
 
 re: fclean all
 
 progress-bar:
 	$(eval CURRENT_TASK=$(shell cat $(PROGRESS_FILE)))
-	echo -n "["
+	printf "["
 	for i in $(shell seq 1 $(CURRENT_TASK)); do \
-        echo -n "="; \
+        printf "="; \
     done
 	for i in $(shell seq $(CURRENT_TASK) $(TOTAL_TASKS)); do \
-        echo -n " "; \
+        printf " "; \
     done
-	echo -n "]"
-	echo -n " ($(CURRENT_TASK)/$(TOTAL_TASKS))"
+	printf "]"
+	printf " ($(CURRENT_TASK)/$(TOTAL_TASKS))"
 
 update-progress:
+	$(shell touch $(PROGRESS_FILE))
 	$(eval CURRENT_TASK=$(shell cat $(PROGRESS_FILE)))
 	$(eval CURRENT_TASK=$(shell echo $$(($(CURRENT_TASK)+1))))
 	echo "$(CURRENT_TASK)" > $(PROGRESS_FILE)
 	$(MAKE) progress-bar
 
 pre_build:
-	echo "$(GREEN)Compiling libft.a$(RESET)"
-	$(shell touch $(PROGRESS_FILE))
+	echo "$(GREEN)$(SET_BLINKING_MODE)Compiling libft.a$(WHITE)"
 	echo "0" > $(PROGRESS_FILE)
 
 post_build:
-	printf "\r$(CLEAR)$(GREEN)Compiled $(NAME)$(RESET)\n"
+	echo "$(CLEAR)$$CREATION_ART"
 	$(shell rm -rf $(PROGRESS_FILE))
 
 	
