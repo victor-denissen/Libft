@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/libft.h"
+#include "../../header/libft.h"
 
 t_list	*ft_lstlast(t_list *lst)
 {

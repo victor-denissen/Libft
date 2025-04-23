@@ -19,7 +19,7 @@
 
 typedef struct s_list
 {
-	int				content;
+	void    *		content;
 	struct s_list	*next;
 }					t_list;
 
@@ -66,15 +66,15 @@ void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 void				ft_free_char_array(char **array);
 
-t_list				*ft_lstnew(int content);
+t_list				*ft_lstnew(void * content);
 t_list				*ft_lstlast(t_list *lst);
-t_list				*ft_lstmap(t_list *lst, int (*f)(int));
+t_list				*ft_lstmap(t_list *lst, int (*f)(void *));
 
 void				ft_lstadd_front(t_list **alst, t_list *to_add);
 void				ft_lstadd_back(t_list **alst, t_list *to_add);
 void				ft_lstdelone(t_list *lst);
 void				ft_lstclear(t_list **lst);
-void				ft_lstiter(t_list *lst, void (*f)(int));
+void				ft_lstiter(t_list *lst, void (*f)(void *));
 
 int					ft_lstsize(t_list *lst);
 int					ft_strform(int to_free, char **str, ...);

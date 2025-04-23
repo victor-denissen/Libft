@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/libft.h"
+#include "../../header/libft.h"
 
-t_list	*ft_lstmap(t_list *lst, int (*f)(int))
+t_list	*ft_lstmap(t_list *lst, int (*f)(void *))
 {
 	t_list	*new_list;
 	t_list	*new_node;
