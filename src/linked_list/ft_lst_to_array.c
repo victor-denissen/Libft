@@ -1,6 +1,6 @@
 #include "../../header/libft.h"
 
-void **list_to_array(t_list *head, int *out_len) {
+void **ft_list_to_array(t_list *head, int *out_len) {
     int count = 0;
     t_list *cur = head;
 

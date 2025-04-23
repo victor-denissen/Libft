@@ -70,14 +70,14 @@ void				ft_free_char_array(char **array);
 
 t_list				*ft_lstnew(void * content);
 t_list				*ft_lstlast(t_list *lst);
-t_list				*ft_lstmap(t_list *lst, int (*f)(void *));
+t_list				*ft_lstmap(t_list *lst, void * (*f)(void *));
 void				ft_lstadd_front(t_list **alst, t_list *to_add);
 void				ft_lstadd_back(t_list **alst, t_list *to_add);
 void				ft_lstdelone(t_list *lst);
 void				ft_lstclear(t_list **lst);
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 int					ft_lstsize(t_list *lst);
-void **list_to_array(t_list *head, int *out_len);
+void                **ft_list_to_array(t_list *head, int *out_len);
 
 
 int					ft_strform(int to_free, char **str, ...);

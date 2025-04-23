@@ -2,7 +2,7 @@
 NAME     = libft.a
 SRC_DIRS = src/allocation \
            src/is \
-           src/linked/list \
+           src/linked_list \
            src/mem \
            src/put \
            src/string \
