@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/libft.h"
+#include "../../header/libft.h"
 
 static int	ft_form(char **str, char *to_add, int iter, int to_free)
 {
