@@ -9,7 +9,7 @@
 /*   Updated: 2023/05/30 13:47:34 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../header/libft.h"
+#include "../../header/libft.h"
 
 static int	ft_check(char *hay, const char *needle, size_t i, size_t c)
 {

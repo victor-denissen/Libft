@@ -9,7 +9,7 @@
 /*   Updated: 2023/05/30 13:47:33 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../header/libft.h"
+#include "../../header/libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

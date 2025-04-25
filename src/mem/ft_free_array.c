@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/libft.h"
+#include "../../header/libft.h"
 
 void	ft_free_char_array(char **array)
 {

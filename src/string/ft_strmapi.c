@@ -9,7 +9,7 @@
 /*   Updated: 2023/05/30 13:47:31 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../header/libft.h"
+#include "../../header/libft.h"
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {

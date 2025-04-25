@@ -9,7 +9,7 @@
 /*   Updated: 2023/05/30 13:47:25 by vdenisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../header/libft.h"
+#include "../../header/libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
