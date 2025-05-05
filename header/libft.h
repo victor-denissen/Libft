@@ -78,6 +78,7 @@ void				ft_lstdelone(t_list *lst);
 void				ft_lstclear(t_list **lst, void (*f)(void*));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 int					ft_lstsize(t_list *lst);
+t_list*             ft_lst_reverse(t_list* head);
 void                **ft_list_to_array(t_list *head, int *out_len);
 
 
